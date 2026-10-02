@@ -1,0 +1,21 @@
+<mujoco model="first_scene">
+    <option timestep="0.002" gravity="0 0 -9.81"/>
+
+    <worldbody>
+        <!-- 地面 -->
+        <geom name="floor"
+              type="plane"
+              size="5 5 0.1"
+              rgba="0.7 0.7 0.7 1"/>
+
+        <!-- 一个自由运动的球体 -->
+        <body name="ball" pos="0 0 1">
+            <freejoint/>
+            <geom name="ball_geom"
+                  type="sphere"
+                  size="0.1"
+                  mass="1"
+                  rgba="0.2 0.5 0.9 1"/>
+        </body>
+    </worldbody>
+</mujoco>
