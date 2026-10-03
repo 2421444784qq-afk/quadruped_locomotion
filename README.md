@@ -24,7 +24,6 @@ In an 8-second flat-ground simulation, the robot achieved approximately 1.573 m 
 
 These results demonstrate forward locomotion in the simulated environment while also revealing opportunities for improving velocity tracking and joint-level accuracy.
 
-
 ## Core Modules
 
 The V3 locomotion controller consists of five modular components that coordinate gait timing, foothold adjustment, foot trajectory generation, and robot state feedback.
@@ -70,7 +69,7 @@ $$
 The foothold adjustment is calculated as:
 
 $$
-\Delta x = \operatorname{clip}(k_v e_v,-\Delta x_{\max},\Delta x_{\max})
+\Delta x = \mathrm{clip}(k_v e_v,-\Delta x_{\max},\Delta x_{\max})
 $$
 
 where \(k_v\) is the feedback gain and \(\Delta x_{\max}\) is the maximum allowable foothold offset.
@@ -182,6 +181,7 @@ This control structure combines task-space foot placement with joint-space feedb
 ### Control Framework Summary
 
 Together, these modules establish a modular locomotion framework that combines periodic gait coordination, state-dependent foothold adjustment, and smooth foot trajectory generation. The generated foot targets are subsequently processed by inverse kinematics and joint-level feedback control to produce actuator commands for the simulated robot.
+
 ## Simulation Setup
 
 ### Robot and Environment
@@ -240,6 +240,7 @@ The simulation runs for 8 seconds and consists of three stages:
 | Trot locomotion   | 3–8 s         |      5 s |
 
 The simulation timestep is loaded directly from the MuJoCo model configuration.
+
 ## How to Run
 
 ### 1. Clone the Repository
@@ -281,6 +282,8 @@ outputs/free_trot_v3/
 **Note:** The robot model path is configured relative to the project root. Run the script from that directory to ensure the model and output paths resolve correctly.
 
 ## System Architecture
+
+```mermaid
 flowchart TD
     A["MuJoCo Go2 Simulation"] --> B["Robot State Feedback"]
     B --> C["State Estimator"]
@@ -292,3 +295,34 @@ flowchart TD
     H --> I["Joint-Level Feedback Control"]
     I --> J["Joint Torque Commands"]
     J --> A
+```
+
+## Project Structure
+
+```text
+quadruped_locomotion/
+├── controllers/
+│   └── v3_model_based/
+│       ├── state_estimator.py
+│       ├── gait_scheduler.py
+│       ├── foothold_planner.py
+│       ├── foot_trajectory_generator.py
+│       └── swing_leg_controller.py
+├── scripts/
+│   └── run_free_trot_v3.py
+├── models/
+│   └── unitree_go2/
+├── outputs/
+│   └── free_trot_v3/
+├── requirements.txt
+└── README.md
+```
+
+## License
+
+This project is intended for research and educational purposes. See the repository for license details.
+
+## Acknowledgments
+
+* Unitree Go2 model provided through the MuJoCo Menagerie.
+* MuJoCo physics simulator developed by Google DeepMind.
