@@ -285,16 +285,27 @@ outputs/free_trot_v3/
 
 ```mermaid
 flowchart TD
-    A["MuJoCo Go2 Simulation"] --> B["Robot State Feedback"]
-    B --> C["State Estimator"]
-    C --> D["Gait Scheduler"]
-    D --> E["Foothold Planner"]
-    E --> F["Foot Trajectory Generator"]
-    F --> G["Swing Leg Controller"]
-    G --> H["Inverse Kinematics"]
-    H --> I["Joint-Level Feedback Control"]
-    I --> J["Joint Torque Commands"]
-    J --> A
+    A["MuJoCo Go2 Simulation"] --> B["State Estimator"]
+    
+    B --> C["Base State Feedback"]
+    C --> D["Foot Trajectory Generator"]
+    
+    subgraph FTG["Foot Trajectory Generation"]
+        E["Gait Scheduler"]
+        F["Foothold Planner"]
+        G["Swing Leg Controller"]
+        E --> D
+        F --> D
+        G --> D
+    end
+
+    D --> H["Desired Foot Positions"]
+    H --> I["Stance-Phase Body Feedback Correction"]
+    I --> J["Damped Inverse Kinematics"]
+    J --> K["Desired Joint Angles"]
+    K --> L["PD Control + Gravity Compensation"]
+    L --> M["Torque Saturation"]
+    M --> A
 ```
 
 ## Project Structure
