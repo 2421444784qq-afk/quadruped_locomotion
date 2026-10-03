@@ -322,7 +322,7 @@ quadruped_locomotion/
 ├── scripts/
 │   └── run_free_trot_v3.py
 ├── models/
-│   └── unitree_go2/
+│   └── first_scene/
 ├── outputs/
 │   └── free_trot_v3/
 ├── requirements.txt
